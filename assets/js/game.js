@@ -24,14 +24,16 @@ var fight = function(enemyName) {
         if (confirmSkip) {
           window.alert(playerName + ' has decided to skip this fight. Goodbye!');
           // subtract money from playerMoney for skipping
-          playerMoney = playerMoney - 10;
+          playerMoney = Math.max(0, playerMoney - 10);
           console.log("playerMoney", playerMoney)
           break;
         }
       }
   
-      // remove enemy's health by subtracting the amount set in the playerAttack variable
-      enemyHealth = enemyHealth - playerAttack;
+      // GENERATE RANDOM DAMAGE VALUE BASED ON PLAYERS ATTACK POWER
+      var damage = randomNumber(playerAttack - 3, playerAttack);
+
+      enemyHealth = Math.max(0, enemyHealth - damage);
       console.log(
         playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
       );
@@ -50,7 +52,7 @@ var fight = function(enemyName) {
       }
   
       // remove players's health by subtracting the amount set in the enemyAttack variable
-      playerHealth = playerHealth - enemyAttack;
+      playerHealth = Math.max(0, playerHealth - enemyAttack);
       console.log(
         enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
       );
@@ -81,7 +83,7 @@ var startGame = function() {
   
         var pickedEnemyName = enemyNames[i];
   
-        enemyHealth = 50;
+        enemyHealth = randomNumber(40, 60);
   
         fight(pickedEnemyName);
 
@@ -174,6 +176,13 @@ if (playAgainConfirm) {
           shop();
           break;
       }
+  };
+
+  // FUNCTION TO GENERATE A RANDOM NUMERIC VALUE
+  var randomNumber = function(min, max) {
+      var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+      return value;
   };
 
 // START GAME WHEN PAGE LOADS
