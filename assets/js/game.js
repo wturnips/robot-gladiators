@@ -1,7 +1,7 @@
 var playerName = window.prompt("What is your robots name?");
 var playerHealth = 65;
 var playerAttack = 15;
-var playerMoney = 10;
+var playerMoney = 20;
 
 // You can also log multiple values at once like this
 console.log(playerName, playerAttack, playerHealth);
@@ -55,10 +55,11 @@ var fight = function(enemyName) {
         enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
       );
   
-      // check player's health
+      // CHECK PLAYERS HEALTH
       if (playerHealth <= 0) {
         window.alert(playerName + ' has died!');
-        // leave while() loop if player is dead
+       
+        // LEAVE WHILE() LOOP IF PLAYER IS DEAD
         break;
       } else {
         window.alert(playerName + ' still has ' + playerHealth + ' health left.');
@@ -66,9 +67,10 @@ var fight = function(enemyName) {
     }
   };
 
-  // function to start a new game
+  // FUNCTION TO START A NEW GAME
 var startGame = function() {
-    // reset player stats
+    
+    // RESET PLAYER STATS
     playerHealth = 65;
     playerAttack = 15;
     playerMoney = 10;
@@ -82,6 +84,17 @@ var startGame = function() {
         enemyHealth = 50;
   
         fight(pickedEnemyName);
+
+        // IF PLAYER IS STILL ALIVE AND WE'RE NOT AT THE LAST ENEMY IN THE ARRAY
+        if (playerHealth > 0 && i < enemyNames.length - 1) {
+
+            // ASK IF PLAYER WANTS TO USE STORE BEFORE NEXT ROUND
+            var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+
+            // IF YES, TAKE PLAYER TO store() FUNCTION
+            if (storeConfirm);
+            shop();
+        }
       }
       else {
         window.alert("You have lost your robot in battle! Game Over!");
@@ -92,11 +105,11 @@ var startGame = function() {
   endGame();
 };
 
-// function to end the entire game
+// FUNCTION TO END THE ENTIRE GAME
 var endGame = function() {
     window.alert("The game has now ended. Let's see how you did!");
     
-    // if player is still alive, player wins!
+    // IF PLAYER IS STILL ALIVE, PLAYER WINS!
   if (playerHealth > 0) {
     window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
   } 
@@ -104,11 +117,11 @@ var endGame = function() {
     window.alert("You've lost your robot in battle.");
   }
 
-  // ask player if they'd like to play again
+  // ASK PLAYER IF THEYD LIKE TO PLAY AGAIN
 var playAgainConfirm = window.confirm("Would you like to play again?");
 
 if (playAgainConfirm) {
-    // restart the game
+    // RESTART THE GAME
     startGame();
   } 
   else {
@@ -116,5 +129,52 @@ if (playAgainConfirm) {
   }
   };
 
-// start game when page loads
+  // SHOP FUNCTION
+  var shop = function() {
+
+    // ASK PLAYER WHAT THEYD LIKE TO DO
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+    );
+
+    // USE SWITCH TO CARRY OUT ACTION
+    switch (shopOptionPrompt) {
+        case "REFILL": // new case
+        case "refill":
+          if (playerMoney >= 7) {
+            window.alert("Refilling player's health by 20 for 7 dollars.");
+      
+            playerHealth = playerHealth + 20;
+            playerMoney = playerMoney - 7;
+          }
+          else {
+            window.alert("You don't have enough money!");
+          }
+      
+          break;
+        case "UPGRADE": // new case
+        case "upgrade":
+          if (playerMoney >= 7) {
+            window.alert("Upgrading player's attack by 6 for 7 dollars.");
+      
+            playerAttack = playerAttack + 6;
+            playerMoney = playerMoney - 7;
+          }
+          else {
+            window.alert("You don't have enough money!");
+          }
+      
+          break;
+        case "LEAVE": // new case
+        case "leave":
+          window.alert("Leaving the store.");
+          break;
+        default:
+          window.alert("You did not pick a valid option. Try again.");
+          shop();
+          break;
+      }
+  };
+
+// START GAME WHEN PAGE LOADS
 startGame();
