@@ -1,25 +1,46 @@
+var fightOrSkip = function() {
+  //ASK PLAYER IF THEYD LIKE TO FIGHT OR SKIP USING fightOrSkip FUNCTION
+  var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+
+  // conditional recursive FUNCTION CALL
+  if (promptFight === "" || promptFight === null) {
+    window.alert("you need to provide a valid answer! Please try again.");
+  // USE RETURN TO CALL IT AGAIN AND STOP THE REST OF THIS FUNCTION FROM RUNNING
+    return fightOrSkip();
+  }
+
+  // CONVERT promptFight TO ALL LOWERCASE SO WE CAN CHECK WITH LESS OPTIONS
+  promptFight = promptFight.toLowerCase();
+  if (promptFight === "skip") {
+    
+    // CONFIRM PLAYER WANTS TO SKIP
+    var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+    // IF YES (TRUE), THEN LEAVE FIGHT
+    if (confirmSkip) {
+      window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+
+    // SUBTRACT MONEY FROM playerMoney FOR SKIPPING, BUT DONT LET THEM GO INTO THE NEGATIVE
+    playerInfo.playerMoney = Math.max(0, playerInfo.money - 10);
+
+    //RETURN TRUE IF PLAYER WANTS TO LEAVE
+    return true;
+    }
+  }
+  return false;
+
+};
+
 var fight = function(enemy) {
-    while (playerInfo.health > 0 && enemy.health > 0) {
-      // ask player if they'd like to fight or run
-      var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    // repeat and execute as long as the enemy-robot is alive 
+while (playerInfo.health > 0 && enemy.health > 0) {
   
-      // if player picks "skip" confirm and then stop the loop
-      if (promptFight === "skip" || promptFight === "SKIP") {
-        // confirm player wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-  
-        // if yes (true), leave fight
-        if (confirmSkip) {
-          window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-          // subtract money from playerMoney for skipping
-          playerInfo.money = Math.max(0, playerInfo.money - 10);
-          console.log("playerMoney", playerInfo.money)
-          break;
-        }
-      }
-  
-      // GENERATE RANDOM DAMAGE VALUE BASED ON PLAYERS ATTACK POWER
-      var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+  // ASK PLAYER IF THEYD LIKE TO FIGHT OR SKIP USING fightOrSkip FUNCTION
+  if (fightOrSkip()) {
+    // IF TRUE, LEAVE FIGHT BY BREAKING LOOP
+    break;
+  }
+  var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
       enemy.health = Math.max(0, enemy.health - damage);
       console.log(
